@@ -3,3 +3,4 @@
 ## Базы данных
 
 - [ДЗ-1](DB/hw1/README.md)
+- [ДЗ-2](DB/hw2/README.md)
