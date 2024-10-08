@@ -5,3 +5,4 @@
 - [ДЗ-1](DB/hw1/README.md)
 - [ДЗ-2](DB/hw2/README.md)
 - [ДЗ-3](DB/hw3/README.md)
+- [ДЗ-4](DB/hw4/)
