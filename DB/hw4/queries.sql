@@ -25,14 +25,14 @@ from book
 where 'Mountains' in (select book_cat.category_name from book_cat where book_cat.isbn = book.isbn)
   and 'Travel' not in (select book_cat.category_name from book_cat where book_cat.isbn = book.isbn);
 
--- Все фамилии и имена читателей, которые вернули хотя бы одну книгу
+-- 5) Все фамилии и имена читателей, которые вернули хотя бы одну книгу
 -- (Borrowing.ReturnDate is not null)
 select distinct r.last_name, r.first_name
 from borrowing
          join reader r on r.id = borrowing.reader_nr
 where borrowing.return_date is not null;
 
--- Все фамилии и имена читателей, которые брали (Borrowing) хотя бы одну книгу (Book),
+-- 6) Все фамилии и имена читателей, которые брали (Borrowing) хотя бы одну книгу (Book),
 -- которую брал Иван Иванов. Ответ не должен содержать самого Ивана Иванова.
 select distinct reader.last_name, reader.first_name
 from borrowing
