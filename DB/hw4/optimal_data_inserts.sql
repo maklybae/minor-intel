@@ -99,6 +99,7 @@ INSERT INTO category (category_name, parent_cat) VALUES
 ('Skiing', 'Sports'),
 ('Alpine Skiing', 'Skiing'),
 ('Cross-country Skiing', 'Skiing'),
+('Fiction', NULL),
 ('Volleyball', 'Sports');
 
 
@@ -137,3 +138,21 @@ INSERT INTO borrowing (reader_nr, isbn, copy_number, return_date) VALUES
 (5, '9781111111117', 1, '2023-09-15'),
 (6, '9781111111116', 1, NULL),
 (7, '9781111111118', 1, NULL);
+
+INSERT INTO book_cat (isbn, category_name)
+VALUES ('9781234567890', 'Mountains'),
+       ('9781234567891', 'Mountains'),
+       ('9781234567892', 'Mountains'),
+       ('9781234567892', 'Travel'),
+       ('9781111111113', 'Travel'),
+       ('9781111111116', 'Travel'),
+       ('9781111111114', 'Science'),
+       ('9781111111115', 'Science'),
+       ('9781111111118', 'Science'),
+       ('9781234567893', 'Fiction'),
+       ('9781111111117', 'Fiction'),
+       ('9782222222221', 'Fiction'),
+       ('9782222222222', 'Fiction'),
+       ('9782222222223', 'Fiction'),
+       ('9782222222224', 'Fiction'),
+       ('9781111111118', 'Fiction');
