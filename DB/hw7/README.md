@@ -130,10 +130,12 @@ F = {A→D, AB→ C, AC→ B}
 
 Итак, мы нашли два потенциальных ключа:
 
-$$\begin{gather*}
+$$
+\begin{gather*}
     AB\\
     AC
-\end{gather*}$$
+\end{gather*}
+$$
 
 ### B) Convert R into 3NF using synthesis algorithm from textbook.
 
@@ -145,20 +147,18 @@ $$\begin{gather*}
 
 Создаем отношения для каждой функциональной зависимости в базисе:
 
-$$
-\begin{gather*}
-    \mathcal{R}_A \coloneqq A \cup D\\
-    \mathcal{R}_{AB} \coloneqq A \cup B \cup C\\
-    \mathcal{R}_{AC} \coloneqq A \cup C \cup B\\
-\end{gather*}$$
+$$\mathcal{R}_A \coloneqq A \cup D$$
+
+$$\mathcal{R}_{AB} \coloneqq A \cup B \cup C$$
+
+$$\mathcal{R}_{AC} \coloneqq A \cup C \cup B$$
+
 
 Одно из последних двух отношений нужно удалить, получим искомую 3NF:
 
-$$
-\begin{gather*}
-    \mathcal{R}_A \coloneqq A \cup D\\
-    \mathcal{R}_{AB} \coloneqq A \cup B \cup C\\
-\end{gather*}$$
+$$\mathcal{R}_A \coloneqq A \cup D$$
+
+$$\mathcal{R}_{AB} \coloneqq A \cup B \cup C$$
 
 ## 4. Complex example
 
@@ -180,8 +180,6 @@ A Vendor holds the trademark for a brand (limited to item of a particular kind),
 
 If a particular item (vendor, brand name, and kind) is available in a particular weight at a store, then that weight is available at all stores carrying that item.
 
-{Vendor, Brand, Kind} -> Weight 
-
 {Vendor, Brand, Kind} ->-> Weight
 
 {Vendor, Brand, Kind} ->-> Store (по свойствам)
@@ -192,7 +190,7 @@ Now assume that all the functional and/or multi-valued dependencies you specifie
 
 Многозначные зависимости мало могут сказать нам что-то о ключах, поэтому будем ориентироваться на функциональные (всего их было выявлено две).
 
-Имея только две этих функциональных зависимости, очевидно, что ключем будет являться {Vendor, Store, Kind}
+Имея только две этих функциональных зависимости, очевидно, что ключем будет являться {Vendor, Store, Kind, Weight} или {Brand, Store, Kind, Weight}
 
 ### E) What normal forms does Items satisfy?
 
@@ -200,9 +198,7 @@ Now assume that all the functional and/or multi-valued dependencies you specifie
 
 **1НФ:** все значения скалярные, повторений нет, значит, действительно, Items удовлетворяет условия 1НФ.
 
-**2НФ:** здесь неключевые атрибуты — Brand и Vendor. Никакой из этих атрибутов не зависит функционально от части первичного ключа, значит, действительно, Items удовлетворяет условия 2НФ.
-
-**3НФ:** сразу же нет, так как неключевой атрибут Vendor функционально зависит от неключевого атрибута Brand.
+**2НФ:** нет, так как неключевой атрибут Vendor не полностью зависит от потенциального ключа {Brand, Store, Kind, Weight}
 
 ### F) Is this decomposition is lossless or not? Why?
 
@@ -210,33 +206,17 @@ Now assume that all the functional and/or multi-valued dependencies you specifie
 
 **Items2(Vendor, Brand, Kind, Weight)**
 
-![lemma](static/image3.png)
+![lemma](static/image5.png)
 
 Проверим по лемме: $\text{Items1} \cap \text{Items2} = {\text{Vendor}, \text{Brand}, \text{Kind}}$
 
-Теперь хочется понять, является ли полученный набор атрибутов суперключом одного из отношений $\mathcal{R}_1$ и $\mathcal{R}_2$.
+{Vendor, Brand, Kind} ->-> Weight
 
-Очевидно, что для Items2 это верно, так как для каждого товара (товары определяются $\text{Vendor}, \text{Brand}, \text{Kind}$) вес одинаков во всех магазинах. Значит, декомпозиция *lossless*.
+{Vendor, Brand, Kind} ->-> Store (по свойствам)
+
+Значит, декомпозиция *lossless*.
 
 ### G) What normal forms does the decomposition in F) satisfy?
-
-<!-- Для каждого отношения отдельно:
-
-**Items1(Vendor, Brand, Kind, Store):** за первичный ключ примем (Vendor, Store, Kind), неключевой атрибут — Brand
-
-*1НФ:* очевидно, да!
-
-*2НФ:* да, так как неключевой атрибут полностью зависит от первичного ключа.
-
-*3НФ:* да, так как неключевой атрибут всего один, поэтому никаких транзитивных зависимостей от первичного ключа нет.
-
-*BCNF:* нет, так как в функциональной зависимости {Brand, Kind} -> Vendor левая часть не является суперключом.
-
-**Items2(Vendor, Brand, Kind, Weight):** за первичный ключ примем (Brand, Kind), неключевые атрибуты — Vendor ((Brand, Kind) -> Vendor) и Weight ((Vendor, Brand, Kind) -> Weight)
-
-*1НФ:* очевидно, да!
-
-*2НФ:* да, так как неключевые атрибуты полностью зависят от первичного ключа. -->
 
 Данная декомпозиция на Item1(Vendor, Brand, Kind, Store) и Item2(Vendor, Brand, Kind, Weight) похоже на стандартный метод борьбы с многозначной зависимостью. Приведу стандартный пример с лекции:
 
@@ -245,6 +225,11 @@ Now assume that all the functional and/or multi-valued dependencies you specifie
 Стоит обратить внимание на то, что в данном случае (Vendor, Brand, Kind) является суперключом, однако не является ключом, так как по доказанному выше {Brand, Kind} -> Vendor. Это замечание делает данный пункт довольно противоречивым, но посмею предположить, что здесь мы должны рассматривать ключ как $\mathcal{R}_1 \cap \mathcal{R}_2 = (\text{Vendor}, \text{Brand}, \text{Kind})$. В таком случае декомпозиция принимает 4NF.
 
 ### H) Decompose Items into a set of relations that are in BCNF such that the decomposition is lossless. Is this decomposition dependency-preserving?
+
+<!-- {Vendor, Store, Kind, Weight} или {Brand, Store, Kind, Weight} -->
+<!-- {Brand, Kind} -> Vendor
+{Vendor, Store, Kind} -> Brand -->
+
 
 Имеем отношение **Items(Vendor, <ins>Brand</ins>, <ins>Kind</ins>, Weight, Store)**.
 
@@ -269,29 +254,17 @@ Now assume that all the functional and/or multi-valued dependencies you specifie
 
 {Vendor, Store, Kind} -> Brand
 
-{Vendor, Brand, Kind} -> Weight
-
-Находим минимальный базис — удаляем слева:
-
-{Brand, Kind} -> Vendor
-
-{Vendor, Store, Kind} -> Brand
-
-{Brand, Kind} -> Weight
-
-Применяем Union Rule:
-
-{Brand, Kind} -> {Vendor, Weight}
-
-{Vendor, Store, Kind} -> Brand
-
 Это и есть наш минимальный базис. Теперь создаем отношения:
 
-$$\mathcal{R_1} = \{\text{Brand}, \text{Kind}\} \cup \{\text{Vendor}, \text{Weight}\}$$
+$$\mathcal{R_1} = \{\text{Brand}, \text{Kind}\} \cup \{\text{Vendor}\}$$
 
 $$\mathcal{R_2} = \{\text{Vendor}, \text{Store}, \text{Kind}\} \cup \{\text{Brand}\}$$
 
-Посмотрим, какие тут могут быть ключи: {Vendor, Store, Kind},  {Brand, Kind, Store}. Каждый из этих ключей уже входит в отношения, сократить тут тоже ничего больше не можем, значит это и есть 3NF.
+Добавляем оставшиеся
+
+$$\mathcal{R_3} = \{\text{Vendor}, \text{Brand}, \text{Kind}\} \cup \{\text{Weight}\}$$
+
+Каждый из этих ключей уже входит в отношения, сократить тут тоже ничего больше не можем, значит это и есть 3NF.
 
 Также заметим, что все изначальные зависимости сохранены, то есть находятся в одном отношении-таблице.
 
