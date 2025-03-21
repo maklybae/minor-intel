@@ -1,0 +1,3 @@
+[submodule "iad-intro-ds"]
+	path = iad-intro-ds
+	url = git@github.com:hse-ds/iad-intro-ds.git
